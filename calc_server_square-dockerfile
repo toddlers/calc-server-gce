@@ -1,0 +1,9 @@
+# Start from a Debian image with the latest version of Go installed
+# and a workspace (GOPATH) configured at /go.
+FROM alpine:3.5
+# Copy the local package files to the container's workspace.
+COPY calc_server_square ./calc_server_square
+
+# Run the outyet command by default when the container starts.
+ENTRYPOINT ["./calc_server_square","-port","8080"]
+EXPOSE 8080

@@ -1,0 +1,124 @@
+# calc-server-square-controller.yml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: calc-server-square
+  name: calc-server-square
+spec:
+  replicas: 5
+  selector:
+    name: calc-server-square
+  template:
+    metadata:
+      labels:
+        name: calc-server-square
+    spec:
+      containers:
+      - image: gcr.io/todoapp-177806/calc_server_square:v9
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        name: calc-server-square
+        ports:
+        - containerPort: 8080
+          name: http-server
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: calc-server-square
+  name: calc-server-square
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    name: calc-server-square
+---
+# calc-server-add-controller.yml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: calc-server-add
+  name: calc-server-add
+spec:
+  replicas: 6
+  selector:
+    name: calc-server-add
+  template:
+    metadata:
+      labels:
+        name: calc-server-add
+    spec:
+      containers:
+      - image: gcr.io/todoapp-177806/calc_server_add:v9
+        env:
+        - name: GET_HOST_FROM
+          value: env
+        name: calc-server-add
+        ports:
+        - containerPort: 8081
+          name: http-server
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: calc-server-add
+  name: calc-server-add
+spec:
+  ports:
+    - port: 8081
+      targetPort: 8081
+  selector:
+    name: calc-server-add
+
+---
+# calc-server-sqrt-controller.yml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  labels:
+    name: calc-server-sqrt
+  name: calc-server-sqrt
+spec:
+  replicas: 2
+  selector:
+    name: calc-server-sqrt
+  template:
+    metadata:
+      labels:
+        name: calc-server-sqrt
+    spec:
+      containers:
+      - image: gcr.io/todoapp-177806/calc_server_sqrt:v9
+        env:
+        - name: GET_HOST_FROM
+          value: env
+        name: calc-server-sqrt
+        ports:
+        - containerPort: 8082
+          name: http-server
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: calc-server-sqrt
+  name: calc-server-sqrt
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8082
+      targetPort: 8082
+      protocol: TCP
+  selector:
+    name: calc-server-sqrt
+  loadBalancerSourceRanges:
+  - 0.0.0.0/0
