@@ -15,7 +15,7 @@ spec:
         name: calc-server-square
     spec:
       containers:
-      - image: gcr.io/todoapp-177806/calc_server_square:v9
+      - image: gcr.io/calc-server/calc_server_square:v9
         env:
         - name: GET_HOSTS_FROM
           value: dns
@@ -55,7 +55,7 @@ spec:
         name: calc-server-add
     spec:
       containers:
-      - image: gcr.io/todoapp-177806/calc_server_add:v9
+      - image: gcr.io/calc-server/calc_server_add:v9
         env:
         - name: GET_HOST_FROM
           value: env
@@ -96,7 +96,7 @@ spec:
         name: calc-server-sqrt
     spec:
       containers:
-      - image: gcr.io/todoapp-177806/calc_server_sqrt:v9
+      - image: gcr.io/calc-server/calc_server_sqrt:v9
         env:
         - name: GET_HOST_FROM
           value: env
