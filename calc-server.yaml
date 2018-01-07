@@ -21,7 +21,7 @@ spec:
         run: calc-server-square-svc
     spec:
       containers:
-      - image: gcr.io/viki-stg/calc_server_square:v2
+      - image: gcr.io/calc-server/calc_server_square:v2
         imagePullPolicy: IfNotPresent
         name: calc-server-square-svc
         ports:
@@ -69,7 +69,7 @@ spec:
         run: calc-server-add-svc
     spec:
       containers:
-      - image: gcr.io/viki-stg/calc_server_add:v2
+      - image: gcr.io/calc-server/calc_server_add:v2
         imagePullPolicy: IfNotPresent
         name: calc-server-add-svc
         ports:
@@ -117,7 +117,7 @@ spec:
         run: calc-server-sqrt-svc
     spec:
       containers:
-      - image: gcr.io/viki-stg/calc_server_sqrt:v2
+      - image: gcr.io/calc-server/calc_server_sqrt:v2
         imagePullPolicy: IfNotPresent
         name: calc-server-sqrt-svc
         ports:
