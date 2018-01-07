@@ -1,117 +1,138 @@
 # calc-server-square-controller.yml
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   labels:
-    name: calc-server-square
-  name: calc-server-square
+    run: calc-server-square-svc
+  name: calc-server-square-svc
 spec:
   replicas: 5
   selector:
-    name: calc-server-square
+    matchLabels:
+      run: calc-server-square-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        name: calc-server-square
+        run: calc-server-square-svc
     spec:
       containers:
-      - image: gcr.io/calc-server/calc_server_square:v9
-        env:
-        - name: GET_HOSTS_FROM
-          value: dns
-        name: calc-server-square
+      - image: gcr.io/viki-stg/calc_server_square:v2
+        imagePullPolicy: IfNotPresent
+        name: calc-server-square-svc
         ports:
         - containerPort: 8080
           name: http-server
+      dnsPolicy:  ClusterFirst
+      restartPolicy: Always
+
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: calc-server-square
-  name: calc-server-square
+    run: calc-server-square-svc
+  name: calc-server-square-svc
 spec:
   ports:
     - port: 8080
       targetPort: 8080
   selector:
-    name: calc-server-square
+    run: calc-server-square-svc
+  type: ClusterIP
 ---
 # calc-server-add-controller.yml
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   labels:
-    name: calc-server-add
-  name: calc-server-add
+    run: calc-server-add-svc
+  name: calc-server-add-svc
 spec:
-  replicas: 6
+  replicas: 5
   selector:
-    name: calc-server-add
+    matchLabels:
+      run: calc-server-add-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        name: calc-server-add
+        run: calc-server-add-svc
     spec:
       containers:
-      - image: gcr.io/calc-server/calc_server_add:v9
-        env:
-        - name: GET_HOST_FROM
-          value: env
-        name: calc-server-add
+      - image: gcr.io/viki-stg/calc_server_add:v2
+        imagePullPolicy: IfNotPresent
+        name: calc-server-add-svc
         ports:
         - containerPort: 8081
           name: http-server
+      dnsPolicy:  ClusterFirst
+      restartPolicy: Always
+
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: calc-server-add
-  name: calc-server-add
+    run: calc-server-add-svc
+  name: calc-server-add-svc
 spec:
   ports:
-    - port: 8081
-      targetPort: 8081
+    - port: 8080
+      targetPort: 8080
   selector:
-    name: calc-server-add
-
+    run: calc-server-add-svc
+  type: ClusterIP
 ---
 # calc-server-sqrt-controller.yml
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
   labels:
-    name: calc-server-sqrt
-  name: calc-server-sqrt
+    run: calc-server-sqrt-svc
+  name: calc-server-sqrt-svc
 spec:
   replicas: 2
   selector:
-    name: calc-server-sqrt
+    matchLabels:
+      run: calc-server-sqrt-svc
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        name: calc-server-sqrt
+        run: calc-server-sqrt-svc
     spec:
       containers:
-      - image: gcr.io/calc-server/calc_server_sqrt:v9
-        env:
-        - name: GET_HOST_FROM
-          value: env
-        name: calc-server-sqrt
+      - image: gcr.io/viki-stg/calc_server_sqrt:v2
+        imagePullPolicy: IfNotPresent
+        name: calc-server-sqrt-svc
         ports:
         - containerPort: 8082
           name: http-server
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: calc-server-sqrt
-  name: calc-server-sqrt
+    run: calc-server-sqrt-svc
+  name: calc-server-sqrt-svc
 spec:
   type: LoadBalancer
   ports:
@@ -119,6 +140,6 @@ spec:
       targetPort: 8082
       protocol: TCP
   selector:
-    name: calc-server-sqrt
+    run: calc-server-sqrt-svc
   loadBalancerSourceRanges:
   - 0.0.0.0/0

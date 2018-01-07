@@ -1,4 +1,4 @@
-VERSION=v1
+VERSION=v2
 export GOPATH = $(PWD)
 
 servers = calc_server_sqrt calc_server_add calc_server_square
@@ -58,7 +58,7 @@ create-kubernetes-cluster: launch-cluster
 
 .PHONY: kubernetes-test
 kubernetes-test: create-kubernetes-cluster
-	curl "http://$(shell kubectl get services calc-server-sqrt|tail -1|awk '{print $$3}'):8082/compute/sqrt?a=30&b=40"
+	curl "http://$(shell kubectl get svc calc-server-sqrt-svc|tail -1|awk '{print $3}'):8082/compute/sqrt?a=30&b=40"
 
 
 .PHONY: kubernetes-clean
