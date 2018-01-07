@@ -24,3 +24,4 @@ Google Container Engine Microservices based app
 
   * Build images using  `make docker-images DOCKER_REPO=gcr.io/calc-server`
   * Create and test cluster using `make kubernetes-test`
+  * Clean up after testing using `make kubernetes-clean`
