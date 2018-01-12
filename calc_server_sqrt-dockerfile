@@ -4,5 +4,5 @@ FROM golang:1.6-wheezy
 COPY  calc_server_sqrt ./calc_server_sqrt
 
 # Run the outyet command by default when the container starts.
-ENTRYPOINT ["./calc_server_sqrt", "-port", "8082", "-adderServerUrl", "http://calc-server-add-svc:8081/compute/add"]
+ENTRYPOINT ["./calc_server_sqrt", "-port", "8082", "-adderServerUrl", "http://calc-server-add-svc/compute/add"]
 EXPOSE 8082

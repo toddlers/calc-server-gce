@@ -6,7 +6,7 @@ metadata:
     run: calc-server-square-svc
   name: calc-server-square-svc
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
       run: calc-server-square-svc
@@ -21,7 +21,7 @@ spec:
         run: calc-server-square-svc
     spec:
       containers:
-      - image: gcr.io/calc-server/calc_server_square:v2
+      - image: gcr.io/calc-server/calc_server_square:v3
         imagePullPolicy: IfNotPresent
         name: calc-server-square-svc
         ports:
@@ -40,7 +40,7 @@ metadata:
   name: calc-server-square-svc
 spec:
   ports:
-    - port: 8080
+    - port: 80
       targetPort: 8080
   selector:
     run: calc-server-square-svc
@@ -54,7 +54,7 @@ metadata:
     run: calc-server-add-svc
   name: calc-server-add-svc
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
       run: calc-server-add-svc
@@ -69,7 +69,7 @@ spec:
         run: calc-server-add-svc
     spec:
       containers:
-      - image: gcr.io/calc-server/calc_server_add:v2
+      - image: gcr.io/calc-server/calc_server_add:v3
         imagePullPolicy: IfNotPresent
         name: calc-server-add-svc
         ports:
@@ -88,8 +88,8 @@ metadata:
   name: calc-server-add-svc
 spec:
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 80
+      targetPort: 8081
   selector:
     run: calc-server-add-svc
   type: ClusterIP
@@ -117,7 +117,7 @@ spec:
         run: calc-server-sqrt-svc
     spec:
       containers:
-      - image: gcr.io/calc-server/calc_server_sqrt:v2
+      - image: gcr.io/calc-server/calc_server_sqrt:v3
         imagePullPolicy: IfNotPresent
         name: calc-server-sqrt-svc
         ports:
@@ -136,7 +136,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 8082
+    - port: 80
       targetPort: 8082
       protocol: TCP
   selector:
